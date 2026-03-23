@@ -1,115 +1,169 @@
-# ToDoList Console App (Java 21)
+# ToDoList — Java 21 Console & Swing Application
 
-Aplicación de gestión de tareas desarrollada en **Java puro (sin frameworks)** con persistencia en fichero y tests automatizados.
+Aplicación de gestión de tareas desarrollada en **Java puro (Java 21)** sin frameworks, con arquitectura orientada a backend real.
 
-El objetivo del proyecto es practicar fundamentos reales de backend:
+El objetivo del proyecto es demostrar:
 
 - diseño de dominio
 - separación de responsabilidades
-- testing con JUnit
-- persistencia simple
-- manejo de errores
-- estructura Maven
-
----
-
-## Stack tecnológico
-
-- Java 21
-- Maven
-- JUnit 5
-- IntelliJ IDEA
+- testing con JUnit 5
+- persistencia simple en fichero
+- evolución progresiva de arquitectura
+- interfaz gráfica básica con Swing
 
 ---
 
 ## Funcionalidades
 
-- Crear tarea
-- Listar tareas
-- Marcar tarea como hecha
-- Eliminar tarea
-- Guardado automático en fichero
-- Carga automática al iniciar
-- Validaciones de dominio
-- Tests unitarios
+- Crear tareas
+- Listar tareas ordenadas por id
+- Marcar tareas como completadas
+- Eliminar tareas
+- Contador total de tareas
+- Persistencia automática en fichero TSV
+- Interfaz gráfica básica (Swing)
+- Tests unitarios del dominio y lógica de negocio
 
 ---
 
-## Modelo de dominio
+## Arquitectura
 
-### Task
-Entidad que representa una tarea.
+El proyecto está estructurado en capas simples simulando un backend real:
 
-Reglas:
+### Dominio
+**Task**
 
-- id obligatorio y positivo
-- title obligatorio y no vacío
-- description nunca es null
-- done indica si la tarea está completada
+- id inmutable
+- validación de id > 0
+- título obligatorio y normalizado (trim)
+- descripción nunca null
+- estado `done`
 - igualdad basada solo en id
 
----
+### Lógica de negocio
+**TaskManager**
 
-### TaskManager
-Responsable de la lógica de negocio:
+Responsable de:
 
-- evita ids duplicados
-- permite marcar tareas como hechas
-- permite eliminar tareas
-- devuelve tareas ordenadas por id
-- mantiene el conteo de tareas
-
----
+- añadir tareas
+- evitar ids duplicados
+- buscar tareas
+- marcar tareas como completadas
+- eliminar tareas
+- devolver lista ordenada
+- contar tareas
 
 ### Persistencia
+**TaskFileRepository**
 
-Se usa `TaskFileRepository` con formato **TSV**.
+- almacenamiento en fichero TSV
+- carga al iniciar la aplicación
+- guardado automático tras operaciones
 
-Formato:
-
-
-id done title description
-
-
-Ejemplo:
+Formato del fichero:
 
 
-1 false estudiar java
-2 true trabajar
-
-
-El repositorio:
-
-- valida el formato al cargar
-- lanza error si los datos son inválidos
-- evita corrupción silenciosa
-
----
-
-## Estructura del proyecto
-
-
-src
-├─ main/java
-│ ├─ Task.java
-│ ├─ TaskManager.java
-│ ├─ TaskFileRepository.java
-│ └─ Main.java
-│
-└─ test/java
-├─ TaskTest.java
-├─ TaskManagerTest.java
-└─ TaskFileRepositoryTest.java
+id \t done \t title \t description
 
 
 ---
 
-## Ejecutar la aplicación
+## Interfaz gráfica
 
-Desde terminal:
+El proyecto incluye una interfaz gráfica desarrollada con **Swing** que permite:
 
-```bash
-mvn compile
-mvn exec:java
+- visualizar tareas
+- crear nuevas tareas
+- marcar tareas como completadas
+- eliminar tareas con confirmación
+- persistencia automática
+- contador total visible
 
-También puede ejecutarse directamente desde IntelliJ ejecutando la clase Main
+La GUI actúa únicamente como capa de presentación, delegando toda la lógica en `TaskManager`.
+
+---
+
+## Testing
+
+Testing realizado con **JUnit 5**.
+
+Cobertura principal:
+
+- validaciones del dominio
+- comportamiento de `TaskManager`
+- duplicados
+- ordenación
+- conteo
+- excepciones esperadas
+
+---
+
+## Tecnologías utilizadas
+
+- Java 21
+- Maven
+- JUnit 5
+- Swing
+- Persistencia en fichero (TSV)
+- IntelliJ IDEA
+
+---
+
+##  Cómo ejecutar
+
+### 1. Clonar el repositorio
+
+
+git clone https://github.com/J-Catena/To-Do-List.git
+
+
+### 2. Ejecutar desde IntelliJ o Maven
+
+Clase principal:
+
+
+Main
+
+
+La aplicación abrirá la interfaz gráfica.
+
+---
+
+## Persistencia
+
+Las tareas se almacenan automáticamente en:
+
+
+tasks.tsv
+
+
+Si el fichero no existe, se crea automáticamente.
+
+---
+
+## Objetivo del proyecto
+
+Este proyecto forma parte de un proceso de aprendizaje orientado a:
+
+- desarrollo backend en Java
+- diseño de aplicaciones sin frameworks
+- preparación para evolucionar posteriormente a APIs REST
+- construcción de piezas de portfolio profesionales
+
+---
+
+## Posibles mejoras futuras
+
+- API REST con Spring Boot
+- persistencia en base de datos
+- interfaz JavaFX o web
+- filtrado y búsqueda de tareas
+- selección de tareas desde la lista
+- mejora visual avanzada
+
+---
+
+## Autor
+
+Juan Catena  
+Backend Java Developer
